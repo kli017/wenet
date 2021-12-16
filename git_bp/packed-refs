@@ -1,0 +1,17 @@
+# pack-refs with: peeled fully-peeled sorted 
+51264f0616ffb495b79272642793da9694601274 refs/remotes/origin/binbin-simplified-ctc
+b01f7e4046ac9d90074d54e3e58d8a8b6abbc85e refs/remotes/origin/dev-rel-shift
+496d2c68cbb8eddd4b56568622ba410eeca5fa6c refs/remotes/origin/diwu-bidirectional-rescore
+060176e85cf162655953c6d9718af2b09210e043 refs/remotes/origin/diwu-large-scale
+658b9d7f3ed1a79a182365ab463e06ae43e05b4f refs/remotes/origin/diwu-readme
+0e3223582f56228f83333cf30c07cb1fa36aeb6d refs/remotes/origin/diwu-subsample-mask-fix
+ad5bf52fa9ebffa94ddd4ab221142bda51353c11 refs/remotes/origin/gh-pages
+b2a06e25e8475eda436c037ed4ebc09ada1c746c refs/remotes/origin/main
+33d7559577d99b39224569fb8bfc93a4d7e79539 refs/remotes/origin/pengzhendong-patch-1
+25da4ff97709098e5f79b919ed5829dd04ff056d refs/remotes/origin/refine-runtime-doc
+a332081acc40d86ba38f3af20ab4fbd9729e9c30 refs/remotes/origin/release-0.1.0
+d14ed71f8a1f4c42f0d2fc1b367ee0907a93ca4c refs/remotes/origin/whiteshirt0429-patch-1
+db403a85ae513bb9090c78bd394aa980c697ffb7 refs/remotes/origin/zhendong-context
+a332081acc40d86ba38f3af20ab4fbd9729e9c30 refs/tags/v0.1.0
+a03b874bb2bf2ea40784ee98b9028aee7c93156e refs/tags/v0.5.0
+7f00996e018839f0e2bb8835ef2452896d74ef1e refs/tags/v1.0.0

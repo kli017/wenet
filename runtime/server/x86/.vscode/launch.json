@@ -1,0 +1,214 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug_main_offline",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [
+                "--rescoring_weight",
+                "1.0",
+                "--ctc_weight",
+                "0.0",
+                "--reverse_weight",
+                "0.0",
+                "--chunk_size",
+                "16",
+                "--wav_path",
+                "/root/test-16k.wav",
+                "--model_path",
+                "/root/kli/wenetmodel/ch1/final.zip",
+                "--dict_path",
+                "/root/kli/wenetmodel/ch1/units.txt",
+                "--beam",
+                "15.0",
+                "--lattice-beam",
+                "12.0",
+                "--max_active",
+                "7000",
+                "--min_active",
+                "300",
+                "--acoustic_scale",
+                "1.0",
+                "--blank_skip_thresh",
+                "1.0",
+                "--simulate_streaming",
+                "true",
+                "--result",
+                "text1.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            //"preLaunchTask": "C/C++: g++ 生成活动文件",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "debug_main_json",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [
+                "--chunk_size",
+                "16",
+                "--wav_path",
+                "/root/test-16k.wav",
+                "--model_path",
+                "/root/kli/wenetmodel/ch1/final.zip",
+                "--dict_path",
+                "/root/kli/wenetmodel/ch1/units.txt",
+                "--max_active",
+                "7000",
+                "--min_active",
+                "300",
+                "--acoustic_scale",
+                "1.0",
+                "--blank_skip_thresh",
+                "1.0",
+                "--result",
+                "text1.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            //"preLaunchTask": "C/C++: g++ 生成活动文件",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "websocket_server_debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [
+                "--port",
+                "10089",
+                "--model_path",
+                "/root/kli/wenetmodel/ch1/final.zip",
+                "--dict_path",
+                "/root/kli/wenetmodel/ch1/units.txt",
+                "--chunk-size",
+                "16"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "C/C++: g++-7 生成活动文件",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "websocket_client_debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [
+                "--port",
+                "10089",
+                "--wav_path",
+                "/root/test-16k.wav",
+                "--continuous_decoding",
+                "true"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "C/C++: g++-7 生成活动文件",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "debug_onnx_sever",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [
+                // "--rescoring_weight",
+                // "1.0",
+                // "--ctc_weight",
+                // "0.0",
+                // "--reverse_weight",
+                // "0.0",
+                // "--chunk_size",
+                // "16",
+                // "--wav_path",
+                // "/root/BEIJING_1.wav",
+                "--model_path",
+                "/root/kli/wenetmodel/mul1/final.zip",
+                "--encoder_path",
+                "/root/wenet-onnx/encoder_chunk_conformer.onnx",
+                "--ctc_path",
+                "/root/wenet-onnx/ctc.onnx",
+                "--decoder_path",
+                "/root/wenet-onnx/decoder.onnx",
+                "--dict_path",
+                "/root/kli/wenetmodel/mul1/units.txt",
+                // "--beam",
+                // "15.0",
+                // "--lattice-beam",
+                // "12.0",
+                // "--max_active",
+                // "7000",
+                // "--min_active",
+                // "300",
+                // "--acoustic_scale",
+                // "1.0",
+                // "--blank_skip_thresh",
+                // "1.0",
+                // "--result",
+                // "text1.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "为 gdb 启用整齐打印",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            //"preLaunchTask": "C/C++: g++ 生成活动文件",
+            "miDebuggerPath": "/usr/bin/gdb"
+        }
+    ]
+}
