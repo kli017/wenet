@@ -176,8 +176,8 @@ DecodeState OnnxAsrDecoder::AdvanceDecoding() {
         feats.insert(feats.end(), e.begin(), e.end());
         
 
-    LOG(INFO) << "feats: " << feats.size();
-    LOG(INFO) << feats;
+    // LOG(INFO) << "feats: " << feats.size();
+    // LOG(INFO) << feats;
     
 
     std::vector<int64_t> input_mask_node_dims = {1, num_frames, feature_dim};
@@ -215,32 +215,32 @@ DecodeState OnnxAsrDecoder::AdvanceDecoding() {
     input_onnx.emplace_back(std::move(conformer_cnn_cache_));
 
     // directly model load test
-    Ort::SessionOptions encoder_session_options_template;
-    Ort::Env encoder_env_template(ORT_LOGGING_LEVEL_WARNING, "debug"); 
-    std::string encoder_model_path_template = "/root/wenet-onnx/encoder_chunk_conformer.onnx";
-    Ort::Session session(encoder_env_template, encoder_model_path_template.c_str(), encoder_session_options_template);
+    // Ort::SessionOptions encoder_session_options_template;
+    // Ort::Env encoder_env_template(ORT_LOGGING_LEVEL_WARNING, "debug"); 
+    // std::string encoder_model_path_template = "/root/wenet-onnx/encoder_chunk_conformer.onnx";
+    // Ort::Session session(encoder_env_template, encoder_model_path_template.c_str(), encoder_session_options_template);
 
-    std::vector<const char*> encoder_input_names = {"input", "offset", "i1", "i2", "i3"};
-    std::vector<const char*> encoder_output_names = {"output", "o1", "o2", "o3"};
+    // std::vector<const char*> encoder_input_names = {"input", "offset", "i1", "i2", "i3"};
+    // std::vector<const char*> encoder_output_names = {"output", "o1", "o2", "o3"};
 
-    auto encoder_onnx_outputs = session.Run(Ort::RunOptions{nullptr},
-                                            encoder_input_names.data(),
-                                            input_onnx.data(),
-                                            input_onnx.size(),
-                                            encoder_output_names.data(),
-                                            encoder_output_names.size());
+    // auto encoder_onnx_outputs = session.Run(Ort::RunOptions{nullptr},
+    //                                         encoder_input_names.data(),
+    //                                         input_onnx.data(),
+    //                                         input_onnx.size(),
+    //                                         encoder_output_names.data(),
+    //                                         encoder_output_names.size());
     
-    const float* chunk_out_data = encoder_onnx_outputs.front().GetTensorData<const float>();
-    LOG(INFO) << "encoder out: " << *chunk_out_data;
+    // const float* chunk_out_data = encoder_onnx_outputs.front().GetTensorData<const float>();
+    // LOG(INFO) << "encoder out: " << *chunk_out_data;
 
     Timer timer;
     // 2. Encoder chunk forward
-    // auto encoder_onnx_outputs = model_->encoder_session()->Run( Ort::RunOptions{nullptr},
-    //                                                             model_->encoder_input_node_names().data(),
-    //                                                             input_onnx.data(),
-    //                                                             input_onnx.size(),
-    //                                                             model_->encoder_output_node_names().data(),
-    //                                                             model_->encoder_output_node_names().size());
+    auto encoder_onnx_outputs = model_->encoder_session()->Run( Ort::RunOptions{nullptr},
+                                                                model_->encoder_input_node_names().data(),
+                                                                input_onnx.data(),
+                                                                input_onnx.size(),
+                                                                model_->encoder_output_node_names().data(),
+                                                                model_->encoder_output_node_names().size());
     CHECK_EQ(encoder_onnx_outputs.size(), 4);
     Ort::Value chunk_out = std::move(encoder_onnx_outputs[0]);
     subsampling_cache_ = std::move(encoder_onnx_outputs[1]); 
@@ -248,12 +248,12 @@ DecodeState OnnxAsrDecoder::AdvanceDecoding() {
     conformer_cnn_cache_ = std::move(encoder_onnx_outputs[3]);
     offset_ += chunk_out.GetTensorTypeAndShapeInfo().GetShape()[1]; // set offset increase
 
-    float* t1 = subsampling_cache_.GetTensorMutableData<float>();
-    float* t2 = elayers_output_cache_.GetTensorMutableData<float>();
-    float* t3 = conformer_cnn_cache_.GetTensorMutableData<float>();
-    LOG(INFO) << "subsamp out: " << *t1 << "  " << *(t1 + 1);
-    LOG(INFO) << "elayer out: " << *t2 << "  " << *(t2 + 1);
-    LOG(INFO) << "conformer out: " << *t3 << "  " << *(t3 + 1);
+    // float* t1 = subsampling_cache_.GetTensorMutableData<float>();
+    // float* t2 = elayers_output_cache_.GetTensorMutableData<float>();
+    // float* t3 = conformer_cnn_cache_.GetTensorMutableData<float>();
+    // LOG(INFO) << "subsamp out: " << *t1 << "  " << *(t1 + 1);
+    // LOG(INFO) << "elayer out: " << *t2 << "  " << *(t2 + 1);
+    // LOG(INFO) << "conformer out: " << *t3 << "  " << *(t3 + 1);
     
     // onnx encoder finished
     std::vector<int64_t> chunk_out_sizes = chunk_out.GetTensorTypeAndShapeInfo().GetShape();
@@ -263,18 +263,18 @@ DecodeState OnnxAsrDecoder::AdvanceDecoding() {
       chunk_out_count *= chunk_out_size;
     }
     float* chunk_out_float = chunk_out.GetTensorMutableData<float>();
-    std::vector<float> chunk_out_vector(chunk_out_count);
-    FILE *fout=fopen("wenet_encoder_result.txt","w");
-    for ( int i = 0; i < (chunk_out_count); ++i) {
-      chunk_out_vector[i] = *chunk_out_float;
-      fprintf(fout,"%f\n",*chunk_out_float);
-      chunk_out_float = chunk_out_float + 1;
-    }
-    fclose(fout);
+    // std::vector<float> chunk_out_vector(chunk_out_count);
+    // FILE *fout=fopen("wenet_encoder_result.txt","w");
+    // for ( int i = 0; i < (chunk_out_count); ++i) {
+    //   chunk_out_vector[i] = *chunk_out_float;
+    //   fprintf(fout,"%f\n",*chunk_out_float);
+    //   chunk_out_float = chunk_out_float + 1;
+    // }
+    // fclose(fout);
     ////////////////
 
 
-    torch::Tensor chunk_out_tensor = torch::from_blob(chunk_out_vector.data(), 
+    torch::Tensor chunk_out_tensor = torch::from_blob(chunk_out_float, 
                       {chunk_out_sizes[0], chunk_out_sizes[1], chunk_out_sizes[2]}, at::kFloat);
     int ctc_log_probs_size = chunk_out_tensor.dim();
     for (size_t i = 0; i < ctc_log_probs_size; ++i)
@@ -282,10 +282,9 @@ DecodeState OnnxAsrDecoder::AdvanceDecoding() {
       LOG(INFO) << "size " << i << ": " << chunk_out_tensor.size(i);
     }
     
-    encoder_outs_.emplace_back(std::move(chunk_out_tensor));  /// ???
+    encoder_outs_.emplace_back(std::move(chunk_out_tensor));  /// for attention rescoring
 
-    // The first dimension of returned value is for batchsize, which is 1
-    // ctc
+    // ctc forward
     auto ctc_onnx_outputs = model_->ctc_session()->Run(Ort::RunOptions{nullptr},
                                                   model_->ctc_input_node_names().data(),
                                                   &chunk_out, 
@@ -454,7 +453,7 @@ void OnnxAsrDecoder::AttentionRescoring() {
   }
  
 
-  // // Step 2: Forward attention decoder by hyps and corresponding encoder_outs_
+  // Step 2: Forward attention decoder by hyps and corresponding encoder_outs_
   auto decoder_memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
   LOG(INFO) << encoder_outs_[0].sizes();
   torch::Tensor encoder_out = torch::cat(encoder_outs_, 1);
@@ -510,20 +509,29 @@ void OnnxAsrDecoder::AttentionRescoring() {
   decoder_inputs.emplace_back(std::move(hyps_tensor_onnx));
   decoder_inputs.emplace_back(std::move(hyps_lens_onnx));
 
-  const char* decoder_input_names[] = {"input", "encoder_mask", "hyps_pad", "hyps_lens"};
-  const char* decoder_output_names[] = {"output", "o1", "olens"};
+  // // absolute dir model test
+  // const char* decoder_input_names[] = {"input", "encoder_mask", "hyps_pad", "hyps_lens"};
+  // const char* decoder_output_names[] = {"output", "o1", "olens"};
 
-  Ort::SessionOptions decoder_session_options_template;
-  Ort::Env decoder_env_template(ORT_LOGGING_LEVEL_WARNING, "d"); 
-  std::string decoder_model_path_template = "/root/wenet-onnx/decoder.onnx";
-  Ort::Session decoder_session_template(decoder_env_template, decoder_model_path_template.c_str(), decoder_session_options_template);
+  // Ort::SessionOptions decoder_session_options_template;
+  // Ort::Env decoder_env_template(ORT_LOGGING_LEVEL_WARNING, "d"); 
+  // std::string decoder_model_path_template = "/root/wenet-onnx/decoder.onnx";
+  // Ort::Session decoder_session_template(decoder_env_template, decoder_model_path_template.c_str(), decoder_session_options_template);
 
-  auto decoder_outputs = decoder_session_template.Run(Ort::RunOptions{nullptr},
-                                                      decoder_input_names,
-                                                      decoder_inputs.data(),
-                                                      decoder_inputs.size(),
-                                                      decoder_output_names,
-                                                      3);
+  // auto decoder_outputs = decoder_session_template.Run(Ort::RunOptions{nullptr},
+  //                                                     decoder_input_names,
+  //                                                     decoder_inputs.data(),
+  //                                                     decoder_inputs.size(),
+  //                                                     decoder_output_names,
+  //                                                     3);
+
+  // 2. decoder chunk forward
+  auto decoder_outputs = model_->decoder_session()->Run( Ort::RunOptions{nullptr},
+                                                              model_->decoder_input_node_names().data(),
+                                                              decoder_inputs.data(),
+                                                              decoder_inputs.size(),
+                                                              model_->decoder_output_node_names().data(),
+                                                              model_->decoder_output_node_names().size());
   
   Ort::Value decoder_outputs_first = std::move(decoder_outputs[0]);
 
