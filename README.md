@@ -1,6 +1,6 @@
 # WeNet
-This is the wenet v1.0.0
-We add an unofficial onnx decoder based on v1.0 api.
+This is the wenet v1.0.0.
+We add an unofficial onnx runtime decoder based on v1.0.0 api.
 The code is in the wenet-ort branch.
 
 [**中文版**](https://github.com/wenet-e2e/wenet/blob/main/README_CN.md)
