@@ -14,20 +14,20 @@ The recipe is simple and we suggest you run each stage one by one manually and c
 
 ```
 cd example/librispeech/s0
-bash run.sh --stage -1 --stop-stage -1
-bash run.sh --stage 0 --stop-stage 0
-bash run.sh --stage 1 --stop-stage 1
-bash run.sh --stage 2 --stop-stage 2
-bash run.sh --stage 3 --stop-stage 3
-bash run.sh --stage 4 --stop-stage 4
-bash run.sh --stage 5 --stop-stage 5
-bash run.sh --stage 6 --stop-stage 6
-bash run.sh --stage 7 --stop-stage 7
+bash run.sh --stage -1 --stop_stage -1
+bash run.sh --stage 0 --stop_stage 0
+bash run.sh --stage 1 --stop_stage 1
+bash run.sh --stage 2 --stop_stage 2
+bash run.sh --stage 3 --stop_stage 3
+bash run.sh --stage 4 --stop_stage 4
+bash run.sh --stage 5 --stop_stage 5
+bash run.sh --stage 6 --stop_stage 6
+bash run.sh --stage 7 --stop_stage 7
 ```
 
 You could also just run the whole script
 ```
-bash run.sh --stage -1 --stop-stage 7
+bash run.sh --stage -1 --stop_stage 7
 ```
 
 
@@ -170,8 +170,8 @@ ZZ 5000
 
 ``` sh
 if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
-  # Prepare wenet requried data
-  echo "Prepare data, prepare requried format"
+  # Prepare wenet required data
+  echo "Prepare data, prepare required format"
   for x in dev ${recog_set} $train_set ; do
     tools/make_raw_list.py $wave_data/$x/wav.scp $wave_data/$x/text \
         $wave_data/$x/data.list
@@ -422,7 +422,8 @@ if [ ${stage} -le 7 ] && [ ${stop_stage} -ge 7 ]; then
       --beam 10.0 --lattice_beam 5 --max_active 7000 --blank_skip_thresh 0.98 \
       --ctc_weight 0.5 --rescoring_weight 1.0 --acoustic_scale 1.2 \
       --fst_path $fst_dir/TLG.fst \
-      data/$test/wav.scp data/$test/text $dir/final.zip $fst_dir/words.txt \
+      --dict_path $fst_dir/words.txt \
+      data/$test/wav.scp data/$test/text $dir/final.zip $fst_dir/units.txt \
       $dir/lm_with_runtime_${test}
     tail $dir/lm_with_runtime_${test}/wer
   done

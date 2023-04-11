@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to Wenet’s documentation! &mdash; Wenet  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <title>Welcome to wenet’s documentation! &mdash; wenet  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+  
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Papers" href="papers.html" /> 
+    <link rel="next" title="Install" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -25,25 +28,26 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> Wenet
+
+          
+          
+          <a href="#" class="icon icon-home">
+            wenet
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Tutorial:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="papers.html">Papers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_librispeech.html">Tutorial on LibriSpeech</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_aishell.html">Tutorial on AIShell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pretrained_models.html">Pretrained Models in WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lm.html">LM for WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime for WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit_in_wenet.html">JIT in WeNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="train.html">How to train models?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Production Runtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a></li>
 </ul>
 
         </div>
@@ -52,15 +56,15 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">Wenet</a>
+          <a href="#">wenet</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>Welcome to Wenet’s documentation!</li>
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to wenet’s documentation!</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -70,60 +74,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="section" id="welcome-to-wenet-s-documentation">
-<h1>Welcome to Wenet’s documentation!<a class="headerlink" href="#welcome-to-wenet-s-documentation" title="Permalink to this headline"></a></h1>
-<p>Wenet is an tansformer-based end-to-end ASR toolkit.</p>
+  <section id="welcome-to-wenet-s-documentation">
+<h1>Welcome to wenet’s documentation!<a class="headerlink" href="#welcome-to-wenet-s-documentation" title="Permalink to this heading"></a></h1>
+<p>wenet is an tansformer-based end-to-end ASR toolkit.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Tutorial:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="papers.html">Papers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_librispeech.html">Tutorial on LibriSpeech</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial_aishell.html">Tutorial on AIShell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pretrained_models.html">Pretrained Models in WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lm.html">LM for WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="runtime.html">Runtime for WeNet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jit_in_wenet.html">JIT in WeNet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#install-prebuilt-python-package">Install prebuilt python package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#install-for-training">Install for training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#build-for-deployment">Build for deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="train.html">How to train models?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_librispeech.html">Tutorial on LibriSpeech</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_aishell.html">Tutorial on AIShell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models.html">Pretrained Models in WeNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="UIO.html">Big Data Training: UIO</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="production.html">Production Runtime</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lm.html">LM for WeNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context Biasing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime.html">Runtime for WeNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jit_in_wenet.html">JIT in WeNet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_binding.html">Python Binding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="papers.html">Papers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_api/modules.html">Python API Reference</a></li>
+</ul>
+</li>
 </ul>
 </div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</div>
+</section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="papers.html" class="btn btn-neutral float-right" title="Papers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Install" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
