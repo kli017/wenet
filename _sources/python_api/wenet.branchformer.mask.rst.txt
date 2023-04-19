@@ -1,0 +1,7 @@
+wenet.branchformer.mask module
+==============================
+
+.. automodule:: wenet.branchformer.mask
+   :members:
+   :undoc-members:
+   :show-inheritance:

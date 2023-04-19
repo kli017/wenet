@@ -186,13 +186,17 @@
 </li>
       <li><a href="python_api/wenet.transformer.subsampling.html#wenet.transformer.subsampling.Conv2dSubsampling4">Conv2dSubsampling4 (class in wenet.transformer.subsampling)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.transformer.subsampling.html#wenet.transformer.subsampling.Conv2dSubsampling6">Conv2dSubsampling6 (class in wenet.transformer.subsampling)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.transformer.subsampling.html#wenet.transformer.subsampling.Conv2dSubsampling8">Conv2dSubsampling8 (class in wenet.transformer.subsampling)</a>
 </li>
       <li><a href="python_api/wenet.squeezeformer.conv2d.html#wenet.squeezeformer.conv2d.Conv2dValid">Conv2dValid (class in wenet.squeezeformer.conv2d)</a>
+</li>
+      <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalGatingMLP">ConvolutionalGatingMLP (class in wenet.branchformer.cgmlp)</a>
+</li>
+      <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit">ConvolutionalSpatialGatingUnit (class in wenet.branchformer.cgmlp)</a>
 </li>
       <li><a href="python_api/wenet.efficient_conformer.convolution.html#wenet.efficient_conformer.convolution.ConvolutionModule">ConvolutionModule (class in wenet.efficient_conformer.convolution)</a>
 
@@ -262,6 +266,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.transformer.asr_model.html#wenet.transformer.asr_model.ASRModel.eos_symbol">eos_symbol() (wenet.transformer.asr_model.ASRModel method)</a>
 </li>
+      <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.espnet_initialization_fn">espnet_initialization_fn() (wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit method)</a>
+</li>
       <li><a href="python_api/wenet.utils.executor.html#wenet.utils.executor.Executor">Executor (class in wenet.utils.executor)</a>
 </li>
   </ul></td>
@@ -272,9 +278,25 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.filter">filter() (in module wenet.dataset.processor)</a>
 </li>
-      <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.forward">forward() (wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.MultiHeadedAttention.forward">forward() (wenet.branchformer.attention.MultiHeadedAttention method)</a>
 
       <ul>
+        <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.RelPositionMultiHeadedAttention.forward">(wenet.branchformer.attention.RelPositionMultiHeadedAttention method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalGatingMLP.forward">(wenet.branchformer.cgmlp.ConvolutionalGatingMLP method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.forward">(wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.forward">(wenet.branchformer.embedding.NoPositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.forward">(wenet.branchformer.embedding.PositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding.forward">(wenet.branchformer.embedding.RelPositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.forward">(wenet.branchformer.embedding.ScaledPositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.forward">(wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+</li>
         <li><a href="python_api/wenet.efficient_conformer.convolution.html#wenet.efficient_conformer.convolution.ConvolutionModule.forward">(wenet.efficient_conformer.convolution.ConvolutionModule method)</a>
 </li>
         <li><a href="python_api/wenet.efficient_conformer.encoder.html#wenet.efficient_conformer.encoder.EfficientConformerEncoder.forward">(wenet.efficient_conformer.encoder.EfficientConformerEncoder method)</a>
@@ -362,9 +384,11 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.forward_attention">forward_attention() (wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.MultiHeadedAttention.forward_attention">forward_attention() (wenet.branchformer.attention.MultiHeadedAttention method)</a>
 
       <ul>
+        <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.forward_attention">(wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+</li>
         <li><a href="python_api/wenet.squeezeformer.attention.html#wenet.squeezeformer.attention.RelPositionMultiHeadedAttention.forward_attention">(wenet.squeezeformer.attention.RelPositionMultiHeadedAttention method)</a>
 </li>
         <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.MultiHeadedAttention.forward_attention">(wenet.transformer.attention.MultiHeadedAttention method)</a>
@@ -406,8 +430,12 @@
 </li>
       <li><a href="python_api/wenet.transducer.transducer.html#wenet.transducer.transducer.Transducer.forward_predictor_step">forward_predictor_step() (wenet.transducer.transducer.Transducer method)</a>
 </li>
-      <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.MultiHeadedAttention.forward_qkv">forward_qkv() (wenet.transformer.attention.MultiHeadedAttention method)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.MultiHeadedAttention.forward_qkv">forward_qkv() (wenet.branchformer.attention.MultiHeadedAttention method)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.MultiHeadedAttention.forward_qkv">(wenet.transformer.attention.MultiHeadedAttention method)</a>
 </li>
+      </ul></li>
       <li><a href="python_api/wenet.transducer.predictor.html#wenet.transducer.predictor.ConvPredictor.forward_step">forward_step() (wenet.transducer.predictor.ConvPredictor method)</a>
 
       <ul>
@@ -568,6 +596,14 @@
       <ul>
         <li><a href="python_api/wenet.html#module-wenet">wenet</a>
 </li>
+        <li><a href="python_api/wenet.branchformer.html#module-wenet.branchformer">wenet.branchformer</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.attention.html#module-wenet.branchformer.attention">wenet.branchformer.attention</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#module-wenet.branchformer.cgmlp">wenet.branchformer.cgmlp</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#module-wenet.branchformer.embedding">wenet.branchformer.embedding</a>
+</li>
         <li><a href="python_api/wenet.dataset.html#module-wenet.dataset">wenet.dataset</a>
 </li>
         <li><a href="python_api/wenet.dataset.dataset.html#module-wenet.dataset.dataset">wenet.dataset.dataset</a>
@@ -659,8 +695,12 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.MultiHeadedAttention">MultiHeadedAttention (class in wenet.transformer.attention)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.MultiHeadedAttention">MultiHeadedAttention (class in wenet.branchformer.attention)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.MultiHeadedAttention">(class in wenet.transformer.attention)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -669,12 +709,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.NoamAnnealing">NoamAnnealing (class in wenet.utils.scheduler)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.NoamHoldAnnealing">NoamHoldAnnealing (class in wenet.utils.scheduler)</a>
 </li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding">NoPositionalEncoding (class in wenet.transformer.embedding)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding">NoPositionalEncoding (class in wenet.branchformer.embedding)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding">(class in wenet.transformer.embedding)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -715,9 +759,13 @@
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.parse_raw">parse_raw() (in module wenet.dataset.processor)</a>
 </li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding.position_encoding">position_encoding() (wenet.transformer.embedding.NoPositionalEncoding method)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.position_encoding">position_encoding() (wenet.branchformer.embedding.NoPositionalEncoding method)</a>
 
       <ul>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.position_encoding">(wenet.branchformer.embedding.PositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding.position_encoding">(wenet.transformer.embedding.NoPositionalEncoding method)</a>
+</li>
         <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding.position_encoding">(wenet.transformer.embedding.PositionalEncoding method)</a>
 </li>
         <li><a href="python_api/wenet.transformer.subsampling.html#wenet.transformer.subsampling.BaseSubsampling.position_encoding">(wenet.transformer.subsampling.BaseSubsampling method)</a>
@@ -725,8 +773,12 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding">PositionalEncoding (class in wenet.transformer.embedding)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding">PositionalEncoding (class in wenet.branchformer.embedding)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding">(class in wenet.transformer.embedding)</a>
 </li>
+      </ul></li>
       <li><a href="python_api/wenet.squeezeformer.positionwise_feed_forward.html#wenet.squeezeformer.positionwise_feed_forward.PositionwiseFeedForward">PositionwiseFeedForward (class in wenet.squeezeformer.positionwise_feed_forward)</a>
 
       <ul>
@@ -751,21 +803,29 @@
 </li>
       <li><a href="python_api/wenet.transformer.asr_model.html#wenet.transformer.asr_model.ASRModel.recognize">recognize() (wenet.transformer.asr_model.ASRModel method)</a>
 </li>
-      <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.rel_shift">rel_shift() (wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.RelPositionMultiHeadedAttention.rel_shift">rel_shift() (wenet.branchformer.attention.RelPositionMultiHeadedAttention method)</a>
 
       <ul>
+        <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.rel_shift">(wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention method)</a>
+</li>
         <li><a href="python_api/wenet.squeezeformer.attention.html#wenet.squeezeformer.attention.RelPositionMultiHeadedAttention.rel_shift">(wenet.squeezeformer.attention.RelPositionMultiHeadedAttention method)</a>
 </li>
         <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.RelPositionMultiHeadedAttention.rel_shift">(wenet.transformer.attention.RelPositionMultiHeadedAttention method)</a>
 </li>
       </ul></li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.RelPositionalEncoding">RelPositionalEncoding (class in wenet.transformer.embedding)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python_api/wenet.squeezeformer.attention.html#wenet.squeezeformer.attention.RelPositionMultiHeadedAttention">RelPositionMultiHeadedAttention (class in wenet.squeezeformer.attention)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding">RelPositionalEncoding (class in wenet.branchformer.embedding)</a>
 
       <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.RelPositionalEncoding">(class in wenet.transformer.embedding)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.RelPositionMultiHeadedAttention">RelPositionMultiHeadedAttention (class in wenet.branchformer.attention)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.squeezeformer.attention.html#wenet.squeezeformer.attention.RelPositionMultiHeadedAttention">(class in wenet.squeezeformer.attention)</a>
+</li>
         <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.RelPositionMultiHeadedAttention">(class in wenet.transformer.attention)</a>
 </li>
       </ul></li>
@@ -774,6 +834,8 @@
       <li><a href="python_api/wenet.utils.common.html#wenet.utils.common.replace_duplicates_with_blank">replace_duplicates_with_blank() (in module wenet.utils.common)</a>
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.resample">resample() (in module wenet.dataset.processor)</a>
+</li>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.reset_parameters">reset_parameters() (wenet.branchformer.embedding.ScaledPositionalEncoding method)</a>
 </li>
       <li><a href="python_api/wenet.utils.common.html#wenet.utils.common.reverse_pad_list">reverse_pad_list() (in module wenet.utils.common)</a>
 </li>
@@ -788,6 +850,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.dataset.dataset.html#wenet.dataset.dataset.DistributedSampler.sample">sample() (wenet.dataset.dataset.DistributedSampler method)</a>
+</li>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding">ScaledPositionalEncoding (class in wenet.branchformer.embedding)</a>
 </li>
       <li><a href="python_api/wenet.dataset.dataset.html#wenet.dataset.dataset.DataList.set_epoch">set_epoch() (wenet.dataset.dataset.DataList method)</a>
 
@@ -815,10 +879,10 @@
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_sub">spec_sub() (in module wenet.dataset.processor)</a>
 </li>
-      <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_trim">spec_trim() (in module wenet.dataset.processor)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_trim">spec_trim() (in module wenet.dataset.processor)</a>
+</li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.speed_perturb">speed_perturb() (in module wenet.dataset.processor)</a>
 </li>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.SquareAnnealing">SquareAnnealing (class in wenet.utils.scheduler)</a>
@@ -865,9 +929,25 @@
 </li>
       <li><a href="python_api/wenet.utils.executor.html#wenet.utils.executor.Executor.train">train() (wenet.utils.executor.Executor method)</a>
 </li>
-      <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.training">training (wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention attribute)</a>
+      <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.MultiHeadedAttention.training">training (wenet.branchformer.attention.MultiHeadedAttention attribute)</a>
 
       <ul>
+        <li><a href="python_api/wenet.branchformer.attention.html#wenet.branchformer.attention.RelPositionMultiHeadedAttention.training">(wenet.branchformer.attention.RelPositionMultiHeadedAttention attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalGatingMLP.training">(wenet.branchformer.cgmlp.ConvolutionalGatingMLP attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.training">(wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.training">(wenet.branchformer.embedding.NoPositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.training">(wenet.branchformer.embedding.PositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding.training">(wenet.branchformer.embedding.RelPositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.training">(wenet.branchformer.embedding.ScaledPositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.efficient_conformer.attention.html#wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention.training">(wenet.efficient_conformer.attention.GroupedRelPositionMultiHeadedAttention attribute)</a>
+</li>
         <li><a href="python_api/wenet.efficient_conformer.convolution.html#wenet.efficient_conformer.convolution.ConvolutionModule.training">(wenet.efficient_conformer.convolution.ConvolutionModule attribute)</a>
 </li>
         <li><a href="python_api/wenet.efficient_conformer.encoder.html#wenet.efficient_conformer.encoder.EfficientConformerEncoder.training">(wenet.efficient_conformer.encoder.EfficientConformerEncoder attribute)</a>
@@ -1009,6 +1089,34 @@
 </li>
       </ul></li>
       <li>
+    wenet.branchformer
+
+      <ul>
+        <li><a href="python_api/wenet.branchformer.html#module-wenet.branchformer">module</a>
+</li>
+      </ul></li>
+      <li>
+    wenet.branchformer.attention
+
+      <ul>
+        <li><a href="python_api/wenet.branchformer.attention.html#module-wenet.branchformer.attention">module</a>
+</li>
+      </ul></li>
+      <li>
+    wenet.branchformer.cgmlp
+
+      <ul>
+        <li><a href="python_api/wenet.branchformer.cgmlp.html#module-wenet.branchformer.cgmlp">module</a>
+</li>
+      </ul></li>
+      <li>
+    wenet.branchformer.embedding
+
+      <ul>
+        <li><a href="python_api/wenet.branchformer.embedding.html#module-wenet.branchformer.embedding">module</a>
+</li>
+      </ul></li>
+      <li>
     wenet.dataset
 
       <ul>
@@ -1134,6 +1242,8 @@
         <li><a href="python_api/wenet.squeezeformer.subsampling.html#module-wenet.squeezeformer.subsampling">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     wenet.transducer
 
@@ -1148,8 +1258,6 @@
         <li><a href="python_api/wenet.transducer.joint.html#module-wenet.transducer.joint">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     wenet.transducer.predictor
 

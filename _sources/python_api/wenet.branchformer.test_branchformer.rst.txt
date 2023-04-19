@@ -1,0 +1,7 @@
+wenet.branchformer.test\_branchformer module
+============================================
+
+.. automodule:: wenet.branchformer.test_branchformer
+   :members:
+   :undoc-members:
+   :show-inheritance:
