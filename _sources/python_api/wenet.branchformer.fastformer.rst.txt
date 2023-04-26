@@ -1,7 +1,0 @@
-wenet.branchformer.fastformer module
-====================================
-
-.. automodule:: wenet.branchformer.fastformer
-   :members:
-   :undoc-members:
-   :show-inheritance:

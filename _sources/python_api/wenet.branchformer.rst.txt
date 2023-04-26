@@ -17,6 +17,5 @@ Submodules
    wenet.branchformer.embedding
    wenet.branchformer.encoder
    wenet.branchformer.encoder_layer
-   wenet.branchformer.fastformer
    wenet.branchformer.mask
    wenet.branchformer.test_branchformer
