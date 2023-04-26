@@ -180,8 +180,6 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x_g</span><span class="p">)</span>
 
-        <span class="c1"># if gate_add is not None:</span>
-        <span class="c1">#     x_g = x_g + gate_add</span>
 
         <span class="n">x_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">x_g</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">x_r</span> <span class="o">*</span> <span class="n">x_g</span>  <span class="c1"># (N, T, D/2)</span>
