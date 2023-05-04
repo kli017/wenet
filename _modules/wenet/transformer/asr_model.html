@@ -164,7 +164,7 @@
         <span class="n">text_lengths</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Frontend + Encoder + Decoder + Calc loss</span>
-<span class="sd">        </span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            speech: (Batch, Length, ...)</span>
 <span class="sd">            speech_lengths: (Batch, )</span>
@@ -276,6 +276,7 @@
         <span class="n">simulate_streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Apply beam search on attention decoder</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            speech (torch.Tensor): (batch, max_len, feat_dim)</span>
 <span class="sd">            speech_length (torch.Tensor): (batch, )</span>
@@ -287,6 +288,7 @@
 <span class="sd">                0: used for training, it&#39;s prohibited here</span>
 <span class="sd">            simulate_streaming (bool): whether do encoder forward in a</span>
 <span class="sd">                streaming fashion</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: decoding result, (batch, max_result_len)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -385,6 +387,7 @@
         <span class="n">simulate_streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Apply CTC greedy search</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            speech (torch.Tensor): (batch, max_len, feat_dim)</span>
 <span class="sd">            speech_length (torch.Tensor): (batch, )</span>
@@ -431,6 +434,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; CTC prefix beam search inner implementation</span>
 <span class="sd">        Args:</span>
+
 <span class="sd">            speech (torch.Tensor): (batch, max_len, feat_dim)</span>
 <span class="sd">            speech_length (torch.Tensor): (batch, )</span>
 <span class="sd">            beam_size (int): beam size for beam search</span>
@@ -441,6 +445,7 @@
 <span class="sd">                0: used for training, it&#39;s prohibited here</span>
 <span class="sd">            simulate_streaming (bool): whether do encoder forward in a</span>
 <span class="sd">                streaming fashion</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List[List[int]]: nbest results</span>
 <span class="sd">            torch.Tensor: encoder output, (1, max_len, encoder_dim),</span>
@@ -513,6 +518,7 @@
         <span class="n">simulate_streaming</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Apply CTC prefix beam search</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            speech (torch.Tensor): (batch, max_len, feat_dim)</span>
 <span class="sd">            speech_length (torch.Tensor): (batch, )</span>
@@ -524,6 +530,7 @@
 <span class="sd">                0: used for training, it&#39;s prohibited here</span>
 <span class="sd">            simulate_streaming (bool): whether do encoder forward in a</span>
 <span class="sd">                streaming fashion</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List[int]: CTC prefix beam search nbest results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -547,6 +554,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Apply attention rescoring decoding, CTC prefix beam search</span>
 <span class="sd">            is applied first to get nbest, then we resoring the nbest on</span>
 <span class="sd">            attention decoder with corresponding encoder out</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            speech (torch.Tensor): (batch, max_len, feat_dim)</span>
 <span class="sd">            speech_length (torch.Tensor): (batch, )</span>
@@ -560,6 +568,7 @@
 <span class="sd">                streaming fashion</span>
 <span class="sd">            reverse_weight (float): right to left decoder weight</span>
 <span class="sd">            ctc_weight (float): ctc score weight</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            List[int]: Attention rescoring result</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -872,6 +881,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Export interface for c++ call, give input chunk xs, and return</span>
 <span class="sd">            output from time 0 to current chunk.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            xs (torch.Tensor): chunk input, with shape (b=1, time, mel-dim),</span>
 <span class="sd">                where `time == (chunk_size - 1) * subsample_rate + \</span>
@@ -889,6 +899,7 @@
 <span class="sd">            cnn_cache (torch.Tensor): cache tensor for cnn_module in conformer,</span>
 <span class="sd">                (elayers, b=1, hidden-dim, cache_t2), where</span>
 <span class="sd">                `cache_t2 == cnn.lorder - 1`</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: output of current input xs,</span>
 <span class="sd">                with shape (b=1, chunk_size, hidden-dim).</span>
@@ -897,6 +908,7 @@
 <span class="sd">                depending on required_cache_size.</span>
 <span class="sd">            torch.Tensor: new conformer cnn cache required for next chunk, with</span>
 <span class="sd">                same shape as the original cnn_cache.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">forward_chunk</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">required_cache_size</span><span class="p">,</span>
                                           <span class="n">att_cache</span><span class="p">,</span> <span class="n">cnn_cache</span><span class="p">)</span></div>
@@ -907,8 +919,10 @@
 <span class="sd">            softmax before ctc</span>
 <span class="sd">        Args:</span>
 <span class="sd">            xs (torch.Tensor): encoder output</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: activation before ctc</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctc</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span></div>
 
@@ -942,6 +956,7 @@
 <span class="sd">                pad eos at the begining which is used fo right to left decoder</span>
 <span class="sd">            reverse_weight: used for verfing whether used right to left decoder,</span>
 <span class="sd">            &gt; 0 will use.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            torch.Tensor: decoder output</span>
 <span class="sd">        &quot;&quot;&quot;</span>

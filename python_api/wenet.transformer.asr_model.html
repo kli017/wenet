@@ -154,24 +154,21 @@ streaming fashion</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="wenet.transformer.asr_model.ASRModel.ctc_greedy_search">
 <span class="sig-name descname"><span class="pre">ctc_greedy_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">speech</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speech_lengths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoding_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_decoding_left_chunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulate_streaming</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/wenet/transformer/asr_model.html#ASRModel.ctc_greedy_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wenet.transformer.asr_model.ASRModel.ctc_greedy_search" title="Permalink to this definition"></a></dt>
-<dd><p>Apply CTC greedy search
-:param speech: (batch, max_len, feat_dim)
-:type speech: torch.Tensor
-:param speech_length: (batch, )
-:type speech_length: torch.Tensor
-:param beam_size: beam size for beam search
-:type beam_size: int
-:param decoding_chunk_size: decoding chunk for dynamic chunk</p>
-<blockquote>
-<div><p>trained model.
-&lt;0: for decoding, use full chunk.
-&gt;0: for decoding, use fixed chunk size as set.
-0: used for training, it’s prohibited here</p>
-</div></blockquote>
+<dd><p>Apply CTC greedy search</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
-streaming fashion</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speech</strong> (<em>torch.Tensor</em>) – (batch, max_len, feat_dim)</p></li>
+<li><p><strong>speech_length</strong> (<em>torch.Tensor</em>) – (batch, )</p></li>
+<li><p><strong>beam_size</strong> (<em>int</em>) – beam size for beam search</p></li>
+<li><p><strong>decoding_chunk_size</strong> (<em>int</em>) – decoding chunk for dynamic chunk
+trained model.
+&lt;0: for decoding, use full chunk.
+&gt;0: for decoding, use fixed chunk size as set.
+0: used for training, it’s prohibited here</p></li>
+<li><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
+streaming fashion</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>best path result</p>
@@ -185,24 +182,21 @@ streaming fashion</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="wenet.transformer.asr_model.ASRModel.ctc_prefix_beam_search">
 <span class="sig-name descname"><span class="pre">ctc_prefix_beam_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">speech</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speech_lengths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoding_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_decoding_left_chunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulate_streaming</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/wenet/transformer/asr_model.html#ASRModel.ctc_prefix_beam_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wenet.transformer.asr_model.ASRModel.ctc_prefix_beam_search" title="Permalink to this definition"></a></dt>
-<dd><p>Apply CTC prefix beam search
-:param speech: (batch, max_len, feat_dim)
-:type speech: torch.Tensor
-:param speech_length: (batch, )
-:type speech_length: torch.Tensor
-:param beam_size: beam size for beam search
-:type beam_size: int
-:param decoding_chunk_size: decoding chunk for dynamic chunk</p>
-<blockquote>
-<div><p>trained model.
-&lt;0: for decoding, use full chunk.
-&gt;0: for decoding, use fixed chunk size as set.
-0: used for training, it’s prohibited here</p>
-</div></blockquote>
+<dd><p>Apply CTC prefix beam search</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
-streaming fashion</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speech</strong> (<em>torch.Tensor</em>) – (batch, max_len, feat_dim)</p></li>
+<li><p><strong>speech_length</strong> (<em>torch.Tensor</em>) – (batch, )</p></li>
+<li><p><strong>beam_size</strong> (<em>int</em>) – beam size for beam search</p></li>
+<li><p><strong>decoding_chunk_size</strong> (<em>int</em>) – decoding chunk for dynamic chunk
+trained model.
+&lt;0: for decoding, use full chunk.
+&gt;0: for decoding, use fixed chunk size as set.
+0: used for training, it’s prohibited here</p></li>
+<li><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
+streaming fashion</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>CTC prefix beam search nbest results</p>
@@ -345,24 +339,21 @@ depending on required_cache_size.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="wenet.transformer.asr_model.ASRModel.recognize">
 <span class="sig-name descname"><span class="pre">recognize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">speech</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speech_lengths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beam_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decoding_chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_decoding_left_chunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulate_streaming</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="../_modules/wenet/transformer/asr_model.html#ASRModel.recognize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#wenet.transformer.asr_model.ASRModel.recognize" title="Permalink to this definition"></a></dt>
-<dd><p>Apply beam search on attention decoder
-:param speech: (batch, max_len, feat_dim)
-:type speech: torch.Tensor
-:param speech_length: (batch, )
-:type speech_length: torch.Tensor
-:param beam_size: beam size for beam search
-:type beam_size: int
-:param decoding_chunk_size: decoding chunk for dynamic chunk</p>
-<blockquote>
-<div><p>trained model.
-&lt;0: for decoding, use full chunk.
-&gt;0: for decoding, use fixed chunk size as set.
-0: used for training, it’s prohibited here</p>
-</div></blockquote>
+<dd><p>Apply beam search on attention decoder</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
-streaming fashion</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speech</strong> (<em>torch.Tensor</em>) – (batch, max_len, feat_dim)</p></li>
+<li><p><strong>speech_length</strong> (<em>torch.Tensor</em>) – (batch, )</p></li>
+<li><p><strong>beam_size</strong> (<em>int</em>) – beam size for beam search</p></li>
+<li><p><strong>decoding_chunk_size</strong> (<em>int</em>) – decoding chunk for dynamic chunk
+trained model.
+&lt;0: for decoding, use full chunk.
+&gt;0: for decoding, use fixed chunk size as set.
+0: used for training, it’s prohibited here</p></li>
+<li><p><strong>simulate_streaming</strong> (<em>bool</em>) – whether do encoder forward in a
+streaming fashion</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>decoding result, (batch, max_result_len)</p>
