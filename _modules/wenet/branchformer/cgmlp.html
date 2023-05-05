@@ -75,7 +75,7 @@
   <h1>Source code for wenet.branchformer.cgmlp</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) 2022 Yifan Peng (Carnegie Mellon University)</span>
 <span class="c1">#               2023 Voicecomm Inc (Kai Li)</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
@@ -119,7 +119,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="c1"># split input channels</span>
-        <span class="n">n_channels</span> <span class="o">=</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>  
+        <span class="n">n_channels</span> <span class="o">=</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">n_channels</span><span class="p">)</span>
         <span class="c1"># self.lorder is used to distinguish if it&#39;s a causal convolution,</span>
         <span class="c1"># if self.lorder &gt; 0: it&#39;s a causal convolution, the input will be</span>
@@ -230,9 +230,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">linear_units</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ConvolutionalGatingMLP.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalGatingMLP.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+                <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">pos_emb</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
-                <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+                <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 

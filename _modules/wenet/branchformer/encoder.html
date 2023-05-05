@@ -75,7 +75,7 @@
   <h1>Source code for wenet.branchformer.encoder</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) 2022 Yifan Peng (Carnegie Mellon University)</span>
 <span class="c1">#               2023 Voicecomm Inc (Kai Li)</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
@@ -305,7 +305,7 @@
                                               <span class="n">decoding_chunk_size</span><span class="p">,</span>
                                               <span class="bp">self</span><span class="o">.</span><span class="n">static_chunk_size</span><span class="p">,</span>
                                               <span class="n">num_decoding_left_chunks</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoders</span><span class="p">:</span>                                      
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoders</span><span class="p">:</span>
             <span class="n">xs</span><span class="p">,</span> <span class="n">chunk_masks</span><span class="p">,</span> <span class="n">_</span> <span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">chunk_masks</span><span class="p">,</span> <span class="n">pos_emb</span><span class="p">,</span> <span class="n">mask_pad</span><span class="p">)</span>
 
         <span class="n">xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">after_norm</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
@@ -313,7 +313,7 @@
         <span class="c1"># return the masks before encoder layers, and the masks will be used</span>
         <span class="c1"># for cross attention with decoder later</span>
         <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">masks</span></div>
-    
+
 <div class="viewcode-block" id="BranchformerEncoder.forward_chunk"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder.html#wenet.branchformer.encoder.BranchformerEncoder.forward_chunk">[docs]</a>    <span class="k">def</span> <span class="nf">forward_chunk</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xs</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>

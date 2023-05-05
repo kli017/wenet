@@ -75,7 +75,7 @@
   <h1>Source code for wenet.branchformer.encoder_layer</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) 2022 Yifan Peng (Carnegie Mellon University)</span>
 <span class="c1">#               2023 Voicecomm Inc (Kai Li)</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
 <span class="c1"># You may obtain a copy of the License at</span>
@@ -180,9 +180,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BranchformerEncoderLayer.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder_layer.html#wenet.branchformer.encoder_layer.BranchformerEncoderLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
-                <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
-                <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
+<div class="viewcode-block" id="BranchformerEncoderLayer.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder_layer.html#wenet.branchformer.encoder_layer.BranchformerEncoderLayer.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">pos_emb</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">mask_pad</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">),</span>
                 <span class="n">att_cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
@@ -217,7 +217,7 @@
         <span class="c1"># skip_layer = False</span>
         <span class="c1"># # with stochastic depth, residual connection `x + f(x)` becomes</span>
         <span class="c1"># # `x &lt;- x + 1 / (1 - p) * f(x)` at training time.</span>
-        
+
         <span class="c1"># if self.training and self.stochastic_depth_rate &gt; 0:</span>
         <span class="c1">#     skip_layer = torch.rand(1).item() &lt; self.stochastic_depth_rate</span>
         <span class="c1">#     stoch_layer_coeff = 1.0 / (1 - self.stochastic_depth_rate)</span>
@@ -232,7 +232,7 @@
         <span class="c1"># Two branches</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
-    
+
         <span class="c1"># Branch 1: multi-headed attention module</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_mha</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
