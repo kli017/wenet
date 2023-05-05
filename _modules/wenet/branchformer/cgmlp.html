@@ -233,14 +233,18 @@
                 <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">pos_emb</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
                 <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
-                <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+                <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span> \
+             <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 
         <span class="n">xs_pad</span> <span class="o">=</span> <span class="n">x</span>
 
-        <span class="n">xs_pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj1</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">)</span>  <span class="c1"># size -&gt; linear_units</span>
-        <span class="n">xs_pad</span><span class="p">,</span> <span class="n">new_cnn_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">csgu</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>  <span class="c1"># linear_units -&gt; linear_units/2</span>
-        <span class="n">xs_pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj2</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">)</span>  <span class="c1"># linear_units/2 -&gt; size</span>
+        <span class="c1"># size -&gt; linear_units</span>
+        <span class="n">xs_pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj1</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">)</span>
+        <span class="c1"># linear_units -&gt; linear_units/2</span>
+        <span class="n">xs_pad</span><span class="p">,</span> <span class="n">new_cnn_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">csgu</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+        <span class="c1"># linear_units/2 -&gt; size</span>
+        <span class="n">xs_pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj2</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">)</span>
+
         <span class="n">out</span> <span class="o">=</span> <span class="n">xs_pad</span>
 
         <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">new_cnn_cache</span></div></div>
