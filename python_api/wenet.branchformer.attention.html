@@ -139,7 +139,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<em>torch.Tensor</em>) – Transformed value (#batch, n_head, time2, d_k).</p></li>
 <li><p><strong>scores</strong> (<em>torch.Tensor</em>) – Attention score (#batch, n_head, time1, time2).</p></li>
-<li><p><strong>mask</strong> (<em>torch.Tensor</em>) – Mask (#batch, 1, time2) or (#batch, time1, time2)
+<li><p><strong>mask</strong> (<em>torch.Tensor</em>) – Mask (#batch, 1, time2) or (#batch, time1, time2),
 (0, 0, 0) means fake mask.</p></li>
 </ul>
 </dd>

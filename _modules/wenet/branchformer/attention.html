@@ -158,7 +158,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            value (torch.Tensor): Transformed value (#batch, n_head, time2, d_k).</span>
 <span class="sd">            scores (torch.Tensor): Attention score (#batch, n_head, time1, time2).</span>
-<span class="sd">            mask (torch.Tensor): Mask (#batch, 1, time2) or (#batch, time1, time2) </span>
+<span class="sd">            mask (torch.Tensor): Mask (#batch, 1, time2) or (#batch, time1, time2),</span>
 <span class="sd">                 (0, 0, 0) means fake mask.</span>
 
 <span class="sd">        Returns:</span>
@@ -182,7 +182,7 @@
         <span class="c1">#   1. onnx(16/-1, -1/-1, 16/0)</span>
         <span class="c1">#   2. jit (16/-1, -1/-1, 16/0, 16/4)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">attn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="c1"># (B,H,T1,T2)</span>
+            <span class="n">attn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B,H,T1,T2)</span>
 
         <span class="n">p_attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">attn</span><span class="p">)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">p_attn</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>  <span class="c1"># (B,H,T,d_k)</span>
