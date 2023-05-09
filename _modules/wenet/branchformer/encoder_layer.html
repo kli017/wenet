@@ -95,6 +95,7 @@
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
+
 <div class="viewcode-block" id="BranchformerEncoderLayer"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder_layer.html#wenet.branchformer.encoder_layer.BranchformerEncoderLayer">[docs]</a><span class="k">class</span> <span class="nc">BranchformerEncoderLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Branchformer encoder layer module.</span>
 
@@ -155,9 +156,6 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_two_branches</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;concat&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-            <span class="c1"># elif self.merge_method == &quot;learned_ave&quot;:</span>
-            <span class="c1">#     # linear projection after weighted average</span>
-            <span class="c1">#     self.merge_proj = torch.nn.Linear(size, size)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;fixed_ave&quot;</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="p">(</span>
                     <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">cgmlp_weight</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
@@ -211,24 +209,16 @@
 <span class="sd">            torch.Tensor: cnn_cahce tensor (#batch, size, cache_t2).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-
-
         <span class="n">stoch_layer_coeff</span> <span class="o">=</span> <span class="mf">1.0</span>
-        <span class="c1"># torch jit failed</span>
-        <span class="c1"># skip_layer = False</span>
-        <span class="c1"># # with stochastic depth, residual connection `x + f(x)` becomes</span>
-        <span class="c1"># # `x &lt;- x + 1 / (1 - p) * f(x)` at training time.</span>
+        <span class="n">skip_layer</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># with stochastic depth, residual connection `x + f(x)` becomes</span>
+        <span class="c1"># `x &lt;- x + 1 / (1 - p) * f(x)` at training time.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_depth_rate</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">skip_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_depth_rate</span>
+            <span class="n">stoch_layer_coeff</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">stochastic_depth_rate</span><span class="p">)</span>
 
-        <span class="c1"># if self.training and self.stochastic_depth_rate &gt; 0:</span>
-        <span class="c1">#     skip_layer = torch.rand(1).item() &lt; self.stochastic_depth_rate</span>
-        <span class="c1">#     stoch_layer_coeff = 1.0 / (1 - self.stochastic_depth_rate)</span>
-
-        <span class="c1"># if skip_layer:</span>
-        <span class="c1">#     # if cache is not None:</span>
-        <span class="c1">#     #     x = torch.cat([cache, x], dim=1)</span>
-        <span class="c1">#     if pos_emb is not None:</span>
-        <span class="c1">#         return (x, pos_emb), mask</span>
-        <span class="c1">#     return x, mask</span>
+        <span class="k">if</span> <span class="n">skip_layer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">att_cache</span><span class="p">,</span> <span class="n">cnn_cache</span>
 
         <span class="c1"># Two branches</span>
         <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span>
@@ -242,13 +232,10 @@
 
         <span class="c1"># Branch 2: convolutional gating mlp</span>
         <span class="c1"># Fake new cnn cache here, and then change it in conv_module</span>
-
         <span class="n">new_cnn_cache</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cgmlp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_mlp</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
-
             <span class="n">x2</span><span class="p">,</span> <span class="n">new_cnn_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cgmlp</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">pos_emb</span><span class="p">,</span> <span class="n">mask_pad</span><span class="p">,</span> <span class="n">cnn_cache</span><span class="p">)</span>
-
             <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
 
         <span class="c1"># Merge two branches</span>
