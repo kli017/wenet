@@ -87,7 +87,7 @@
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-
+<span class="c1"># Modified from ESPnet(https://github.com/espnet/espnet)</span>
 
 <span class="sd">&quot;&quot;&quot;BranchformerEncoderLayer definition.&quot;&quot;&quot;</span>
 
@@ -145,17 +145,22 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout_rate</span><span class="p">)</span>
 
-        <span class="c1"># # attention-based pooling for two branches</span>
-        <span class="c1"># self.pooling_proj1 = torch.nn.Linear(size, 1)</span>
-        <span class="c1"># self.pooling_proj2 = torch.nn.Linear(size, 1)</span>
-
-        <span class="c1"># # linear projections for calculating merging weights</span>
-        <span class="c1"># self.weight_proj1 = torch.nn.Linear(size, 1)</span>
-        <span class="c1"># self.weight_proj2 = torch.nn.Linear(size, 1)</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_two_branches</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;concat&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;learned_ave&quot;</span><span class="p">:</span>
+                <span class="c1"># # attention-based pooling for two branches</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pooling_proj1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pooling_proj2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># # linear projections for calculating merging weights</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight_proj1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">weight_proj2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c1"># linear projection after weighted average</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;fixed_ave&quot;</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="p">(</span>
                     <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">cgmlp_weight</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
@@ -191,14 +196,14 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            x (Union[Tuple, torch.Tensor]): Input tensor  (#batch, time, size).</span>
-<span class="sd">            mask (torch.Tensor): Mask tensor for the input (#batch, 1, time).</span>
+<span class="sd">            mask (torch.Tensor): Mask tensor for the input (#batch, time, time).</span>
 <span class="sd">            pos_emb (torch.Tensor): positional encoding, must not be None</span>
-<span class="sd">                for ConformerEncoderLayer.</span>
+<span class="sd">                for BranchformerEncoderLayer.</span>
 <span class="sd">            mask_pad (torch.Tensor): batch padding mask used for conv module.</span>
 <span class="sd">                (#batch, 1，time), (0, 0, 0) means fake mask.</span>
 <span class="sd">            att_cache (torch.Tensor): Cache tensor of the KEY &amp; VALUE</span>
 <span class="sd">                (#batch=1, head, cache_t1, d_k * 2), head * d_k == size.</span>
-<span class="sd">            cnn_cache (torch.Tensor): Convolution cache in conformer layer</span>
+<span class="sd">            cnn_cache (torch.Tensor): Convolution cache in cgmlp layer</span>
 <span class="sd">                (#batch=1, size, cache_t2)</span>
 
 <span class="sd">        Returns:</span>
@@ -243,6 +248,47 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;concat&quot;</span><span class="p">:</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">stoch_layer_coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;learned_ave&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">training</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_branch_drop_rate</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                    <span class="ow">and</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn_branch_drop_rate</span>
+                <span class="p">):</span>
+                    <span class="c1"># Drop the attn branch</span>
+                    <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># branch1</span>
+                    <span class="n">score1</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_proj1</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">score1</span> <span class="o">=</span> <span class="n">score1</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask_pad</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">))</span>
+                    <span class="n">score1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span>
+                        <span class="n">mask_pad</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mf">0.0</span>
+                    <span class="p">)</span>
+
+                    <span class="n">pooled1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">score1</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (batch, size)</span>
+                    <span class="n">weight1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_proj1</span><span class="p">(</span><span class="n">pooled1</span><span class="p">)</span>  <span class="c1"># (batch, 1)</span>
+
+                    <span class="c1"># branch2</span>
+                    <span class="n">score2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pooling_proj2</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">score2</span> <span class="o">=</span> <span class="n">score2</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask_pad</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">))</span>
+                    <span class="n">score2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span>
+                        <span class="n">mask_pad</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mf">0.0</span>
+                    <span class="p">)</span>
+
+                    <span class="n">pooled2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">score2</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (batch, size)</span>
+                    <span class="n">weight2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_proj2</span><span class="p">(</span><span class="n">pooled2</span><span class="p">)</span>  <span class="c1"># (batch, 1)</span>
+
+                    <span class="c1"># normalize weights of two branches</span>
+                    <span class="n">merge_weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span>
+                        <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">weight1</span><span class="p">,</span> <span class="n">weight2</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span>
+                    <span class="p">)</span>  <span class="c1"># (batch, 2)</span>
+                    <span class="n">merge_weights</span> <span class="o">=</span> <span class="n">merge_weights</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span>
+                        <span class="o">-</span><span class="mi">1</span>
+                    <span class="p">)</span>  <span class="c1"># (batch, 2, 1, 1)</span>
+                    <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">merge_weights</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">merge_weights</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># (batch, 1, 1)</span>
+
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">stoch_layer_coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">merge_proj</span><span class="p">(</span><span class="n">w1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">w2</span> <span class="o">*</span> <span class="n">x2</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_method</span> <span class="o">==</span> <span class="s2">&quot;fixed_ave&quot;</span><span class="p">:</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">stoch_layer_coeff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span>
