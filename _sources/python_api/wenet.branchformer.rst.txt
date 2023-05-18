@@ -12,8 +12,6 @@ Submodules
 .. toctree::
    :maxdepth: 2
 
-   wenet.branchformer.attention
    wenet.branchformer.cgmlp
-   wenet.branchformer.embedding
    wenet.branchformer.encoder
    wenet.branchformer.encoder_layer

@@ -1,7 +1,0 @@
-wenet.branchformer.embedding module
-===================================
-
-.. automodule:: wenet.branchformer.embedding
-   :members:
-   :undoc-members:
-   :show-inheritance:

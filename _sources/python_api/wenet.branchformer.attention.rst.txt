@@ -1,7 +1,0 @@
-wenet.branchformer.attention module
-===================================
-
-.. automodule:: wenet.branchformer.attention
-   :members:
-   :undoc-members:
-   :show-inheritance:
