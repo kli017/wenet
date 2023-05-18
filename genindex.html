@@ -287,6 +287,14 @@
       <ul>
         <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.forward">(wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit method)</a>
 </li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.forward">(wenet.branchformer.embedding.NoPositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.forward">(wenet.branchformer.embedding.PositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding.forward">(wenet.branchformer.embedding.RelPositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.forward">(wenet.branchformer.embedding.ScaledPositionalEncoding method)</a>
+</li>
         <li><a href="python_api/wenet.branchformer.encoder.html#wenet.branchformer.encoder.BranchformerEncoder.forward">(wenet.branchformer.encoder.BranchformerEncoder method)</a>
 </li>
         <li><a href="python_api/wenet.branchformer.encoder_layer.html#wenet.branchformer.encoder_layer.BranchformerEncoderLayer.forward">(wenet.branchformer.encoder_layer.BranchformerEncoderLayer method)</a>
@@ -594,6 +602,8 @@
 </li>
         <li><a href="python_api/wenet.branchformer.cgmlp.html#module-wenet.branchformer.cgmlp">wenet.branchformer.cgmlp</a>
 </li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#module-wenet.branchformer.embedding">wenet.branchformer.embedding</a>
+</li>
         <li><a href="python_api/wenet.branchformer.encoder.html#module-wenet.branchformer.encoder">wenet.branchformer.encoder</a>
 </li>
         <li><a href="python_api/wenet.branchformer.encoder_layer.html#module-wenet.branchformer.encoder_layer">wenet.branchformer.encoder_layer</a>
@@ -699,12 +709,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.NoamAnnealing">NoamAnnealing (class in wenet.utils.scheduler)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.NoamHoldAnnealing">NoamHoldAnnealing (class in wenet.utils.scheduler)</a>
 </li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding">NoPositionalEncoding (class in wenet.transformer.embedding)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding">NoPositionalEncoding (class in wenet.branchformer.embedding)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding">(class in wenet.transformer.embedding)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -747,9 +761,13 @@
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.parse_raw">parse_raw() (in module wenet.dataset.processor)</a>
 </li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding.position_encoding">position_encoding() (wenet.transformer.embedding.NoPositionalEncoding method)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.position_encoding">position_encoding() (wenet.branchformer.embedding.NoPositionalEncoding method)</a>
 
       <ul>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.position_encoding">(wenet.branchformer.embedding.PositionalEncoding method)</a>
+</li>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.NoPositionalEncoding.position_encoding">(wenet.transformer.embedding.NoPositionalEncoding method)</a>
+</li>
         <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding.position_encoding">(wenet.transformer.embedding.PositionalEncoding method)</a>
 </li>
         <li><a href="python_api/wenet.transformer.subsampling.html#wenet.transformer.subsampling.BaseSubsampling.position_encoding">(wenet.transformer.subsampling.BaseSubsampling method)</a>
@@ -757,8 +775,12 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding">PositionalEncoding (class in wenet.transformer.embedding)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding">PositionalEncoding (class in wenet.branchformer.embedding)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.PositionalEncoding">(class in wenet.transformer.embedding)</a>
 </li>
+      </ul></li>
       <li><a href="python_api/wenet.squeezeformer.positionwise_feed_forward.html#wenet.squeezeformer.positionwise_feed_forward.PositionwiseFeedForward">PositionwiseFeedForward (class in wenet.squeezeformer.positionwise_feed_forward)</a>
 
       <ul>
@@ -791,8 +813,12 @@
         <li><a href="python_api/wenet.transformer.attention.html#wenet.transformer.attention.RelPositionMultiHeadedAttention.rel_shift">(wenet.transformer.attention.RelPositionMultiHeadedAttention method)</a>
 </li>
       </ul></li>
-      <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.RelPositionalEncoding">RelPositionalEncoding (class in wenet.transformer.embedding)</a>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding">RelPositionalEncoding (class in wenet.branchformer.embedding)</a>
+
+      <ul>
+        <li><a href="python_api/wenet.transformer.embedding.html#wenet.transformer.embedding.RelPositionalEncoding">(class in wenet.transformer.embedding)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.squeezeformer.attention.html#wenet.squeezeformer.attention.RelPositionMultiHeadedAttention">RelPositionMultiHeadedAttention (class in wenet.squeezeformer.attention)</a>
@@ -807,6 +833,8 @@
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.resample">resample() (in module wenet.dataset.processor)</a>
 </li>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.reset_parameters">reset_parameters() (wenet.branchformer.embedding.ScaledPositionalEncoding method)</a>
+</li>
       <li><a href="python_api/wenet.utils.common.html#wenet.utils.common.reverse_pad_list">reverse_pad_list() (in module wenet.utils.common)</a>
 </li>
       <li><a href="python_api/wenet.transformer.asr_model.html#wenet.transformer.asr_model.ASRModel.right_context">right_context() (wenet.transformer.asr_model.ASRModel method)</a>
@@ -820,6 +848,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="python_api/wenet.dataset.dataset.html#wenet.dataset.dataset.DistributedSampler.sample">sample() (wenet.dataset.dataset.DistributedSampler method)</a>
+</li>
+      <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding">ScaledPositionalEncoding (class in wenet.branchformer.embedding)</a>
 </li>
       <li><a href="python_api/wenet.dataset.dataset.html#wenet.dataset.dataset.DataList.set_epoch">set_epoch() (wenet.dataset.dataset.DataList method)</a>
 
@@ -847,10 +877,10 @@
 </li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_sub">spec_sub() (in module wenet.dataset.processor)</a>
 </li>
-      <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_trim">spec_trim() (in module wenet.dataset.processor)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.spec_trim">spec_trim() (in module wenet.dataset.processor)</a>
+</li>
       <li><a href="python_api/wenet.dataset.processor.html#wenet.dataset.processor.speed_perturb">speed_perturb() (in module wenet.dataset.processor)</a>
 </li>
       <li><a href="python_api/wenet.utils.scheduler.html#wenet.utils.scheduler.SquareAnnealing">SquareAnnealing (class in wenet.utils.scheduler)</a>
@@ -901,6 +931,14 @@
 
       <ul>
         <li><a href="python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.training">(wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.NoPositionalEncoding.training">(wenet.branchformer.embedding.NoPositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.PositionalEncoding.training">(wenet.branchformer.embedding.PositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.RelPositionalEncoding.training">(wenet.branchformer.embedding.RelPositionalEncoding attribute)</a>
+</li>
+        <li><a href="python_api/wenet.branchformer.embedding.html#wenet.branchformer.embedding.ScaledPositionalEncoding.training">(wenet.branchformer.embedding.ScaledPositionalEncoding attribute)</a>
 </li>
         <li><a href="python_api/wenet.branchformer.encoder.html#wenet.branchformer.encoder.BranchformerEncoder.training">(wenet.branchformer.encoder.BranchformerEncoder attribute)</a>
 </li>
@@ -1060,6 +1098,13 @@
 
       <ul>
         <li><a href="python_api/wenet.branchformer.cgmlp.html#module-wenet.branchformer.cgmlp">module</a>
+</li>
+      </ul></li>
+      <li>
+    wenet.branchformer.embedding
+
+      <ul>
+        <li><a href="python_api/wenet.branchformer.embedding.html#module-wenet.branchformer.embedding">module</a>
 </li>
       </ul></li>
       <li>
