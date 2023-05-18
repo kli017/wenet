@@ -87,7 +87,7 @@
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-
+<span class="c1"># Modified from ESPnet(https://github.com/espnet/espnet)</span>
 
 <span class="sd">&quot;&quot;&quot;MLP with convolutional gating (cgMLP) definition.</span>
 
@@ -159,12 +159,18 @@
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">ones_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConvolutionalSpatialGatingUnit.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))):</span>
+<div class="viewcode-block" id="ConvolutionalSpatialGatingUnit.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalSpatialGatingUnit.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward method</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x (torch.Tensor): (batch, time, channels)</span>
-<span class="sd">            gate_add (torch.Tensor): (batch, time, channels/2) not used yet</span>
+<span class="sd">            cache (torch.Tensor): left context cache, it is only</span>
+<span class="sd">                used in causal convolution (#batch, channels, cache_t),</span>
+<span class="sd">                (0, 0, 0) meas fake cache.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            out (torch.Tensor): (batch, time, channels/2)</span>
@@ -194,7 +200,6 @@
         <span class="n">x_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x_g</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (N, T, D/2)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">x_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x_g</span><span class="p">)</span>
-
 
         <span class="n">x_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">x_g</span><span class="p">)</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">x_r</span> <span class="o">*</span> <span class="n">x_g</span>  <span class="c1"># (N, T, D/2)</span>
@@ -231,10 +236,22 @@
 <div class="viewcode-block" id="ConvolutionalGatingMLP.forward"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.cgmlp.html#wenet.branchformer.cgmlp.ConvolutionalGatingMLP.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
-        <span class="n">pos_emb</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">cache</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward method</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): (batch, time, channels)</span>
+<span class="sd">            mask_pad (torch.Tensor): used for batch padding (#batch, 1, time),</span>
+<span class="sd">                (0, 0, 0) means fake mask. Not used yet</span>
+<span class="sd">            cache (torch.Tensor): left context cache, it is only</span>
+<span class="sd">                used in causal convolution (#batch, channels, cache_t),</span>
+<span class="sd">                (0, 0, 0) meas fake cache.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            out (torch.Tensor): (batch, time, channels/2)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">xs_pad</span> <span class="o">=</span> <span class="n">x</span>
 
@@ -246,7 +263,6 @@
 
         <span class="c1"># linear_units/2 -&gt; size</span>
         <span class="n">xs_pad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channel_proj2</span><span class="p">(</span><span class="n">xs_pad</span><span class="p">)</span>
-
 
         <span class="n">out</span> <span class="o">=</span> <span class="n">xs_pad</span>
 

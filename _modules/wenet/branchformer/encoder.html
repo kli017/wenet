@@ -87,29 +87,33 @@
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
+<span class="c1"># Modified from ESPnet(https://github.com/espnet/espnet)</span>
 
+<span class="sd">&quot;&quot;&quot;Encoder definition.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">from</span> <span class="nn">wenet.branchformer.attention</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">wenet.transformer.attention</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">MultiHeadedAttention</span><span class="p">,</span>
     <span class="n">RelPositionMultiHeadedAttention</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">wenet.branchformer.embedding</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">wenet.transformer.embedding</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">RelPositionalEncoding</span><span class="p">,</span>
     <span class="n">PositionalEncoding</span><span class="p">,</span>
     <span class="n">NoPositionalEncoding</span><span class="p">,</span>
-    <span class="n">ScaledPositionalEncoding</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">wenet.transformer.subsampling</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Conv2dSubsampling4</span><span class="p">,</span>
+    <span class="n">Conv2dSubsampling6</span><span class="p">,</span>
+    <span class="n">Conv2dSubsampling8</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">wenet.branchformer.encoder_layer</span> <span class="kn">import</span> <span class="n">BranchformerEncoderLayer</span>
 <span class="kn">from</span> <span class="nn">wenet.branchformer.cgmlp</span> <span class="kn">import</span> <span class="n">ConvolutionalGatingMLP</span>
 <span class="kn">from</span> <span class="nn">wenet.utils.mask</span> <span class="kn">import</span> <span class="n">make_pad_mask</span>
 <span class="kn">from</span> <span class="nn">wenet.utils.mask</span> <span class="kn">import</span> <span class="n">add_optional_chunk_mask</span>
-<span class="kn">from</span> <span class="nn">wenet.transformer.subsampling</span> <span class="kn">import</span> <span class="n">Conv2dSubsampling4</span>
-
 
 
 <div class="viewcode-block" id="BranchformerEncoder"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder.html#wenet.branchformer.encoder.BranchformerEncoder">[docs]</a><span class="k">class</span> <span class="nc">BranchformerEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -123,7 +127,6 @@
         <span class="n">attention_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
         <span class="n">attention_layer_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rel_selfattn&quot;</span><span class="p">,</span>
         <span class="n">pos_enc_layer_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rel_pos&quot;</span><span class="p">,</span>
-        <span class="n">rel_pos_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span><span class="p">,</span>
         <span class="n">use_cgmlp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">cgmlp_linear_units</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span>
         <span class="n">cgmlp_conv_kernel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span>
@@ -137,7 +140,6 @@
         <span class="n">positional_dropout_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
         <span class="n">attention_dropout_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">input_layer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;conv2d&quot;</span><span class="p">,</span>
-        <span class="n">zero_triu</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">padding_idx</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">stochastic_depth_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">static_chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
@@ -156,8 +158,6 @@
         <span class="k">elif</span> <span class="n">pos_enc_layer_type</span> <span class="o">==</span> <span class="s2">&quot;rel_pos&quot;</span><span class="p">:</span>
             <span class="k">assert</span> <span class="n">attention_layer_type</span> <span class="o">==</span> <span class="s2">&quot;rel_selfattn&quot;</span>
             <span class="n">pos_enc_class</span> <span class="o">=</span> <span class="n">RelPositionalEncoding</span>
-        <span class="k">elif</span> <span class="n">pos_enc_layer_type</span> <span class="o">==</span> <span class="s2">&quot;scaled_abs_pos&quot;</span><span class="p">:</span>
-            <span class="n">pos_enc_class</span> <span class="o">=</span> <span class="n">ScaledPositionalEncoding</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown pos_enc_layer: &quot;</span> <span class="o">+</span> <span class="n">pos_enc_layer_type</span><span class="p">)</span>
 
@@ -170,6 +170,20 @@
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">input_layer</span> <span class="o">==</span> <span class="s2">&quot;conv2d&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">Conv2dSubsampling4</span><span class="p">(</span>
+                <span class="n">input_size</span><span class="p">,</span>
+                <span class="n">output_size</span><span class="p">,</span>
+                <span class="n">dropout_rate</span><span class="p">,</span>
+                <span class="n">pos_enc_class</span><span class="p">(</span><span class="n">output_size</span><span class="p">,</span> <span class="n">positional_dropout_rate</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">input_layer</span> <span class="o">==</span> <span class="s2">&quot;conv2d6&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">Conv2dSubsampling6</span><span class="p">(</span>
+                <span class="n">input_size</span><span class="p">,</span>
+                <span class="n">output_size</span><span class="p">,</span>
+                <span class="n">dropout_rate</span><span class="p">,</span>
+                <span class="n">pos_enc_class</span><span class="p">(</span><span class="n">output_size</span><span class="p">,</span> <span class="n">positional_dropout_rate</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">input_layer</span> <span class="o">==</span> <span class="s2">&quot;conv2d8&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">Conv2dSubsampling8</span><span class="p">(</span>
                 <span class="n">input_size</span><span class="p">,</span>
                 <span class="n">output_size</span><span class="p">,</span>
                 <span class="n">dropout_rate</span><span class="p">,</span>
@@ -192,7 +206,6 @@
                 <span class="n">attention_heads</span><span class="p">,</span>
                 <span class="n">output_size</span><span class="p">,</span>
                 <span class="n">attention_dropout_rate</span><span class="p">,</span>
-                <span class="n">zero_triu</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;unknown encoder_attn_layer: &quot;</span> <span class="o">+</span> <span class="n">attention_layer_type</span><span class="p">)</span>
@@ -389,7 +402,6 @@
         <span class="n">r_cnn_cache</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">r_cnn_cache</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">r_att_cache</span><span class="p">,</span> <span class="n">r_cnn_cache</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="BranchformerEncoder.forward_chunk_by_chunk"><a class="viewcode-back" href="../../../python_api/wenet.branchformer.encoder.html#wenet.branchformer.encoder.BranchformerEncoder.forward_chunk_by_chunk">[docs]</a>    <span class="k">def</span> <span class="nf">forward_chunk_by_chunk</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
