@@ -19,7 +19,11 @@ import copy
 import logging
 import os
 
+###设置碎片化内存 限制oom ？？？
+#os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
+
 import torch
+torch.cuda.empty_cache()
 import torch.distributed as dist
 import torch.optim as optim
 import yaml
@@ -27,8 +31,14 @@ from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
 
 from wenet.dataset.dataset import Dataset
-from wenet.transformer.asr_model import init_asr_model
-from wenet.utils.checkpoint import load_checkpoint, save_checkpoint
+#from wenet.transformer.asr_model import init_asr_model
+# move init_asr_model to utils
+from wenet.utils.init_model import init_asr_model
+from wenet.utils.checkpoint import load_checkpoint, \
+    save_checkpoint, \
+    load_trained_enc_modules, \
+    load_trained_dec_modules, \
+    freeze_modules    
 from wenet.utils.executor import Executor
 from wenet.utils.file_utils import read_symbol_table, read_non_lang_symbols
 from wenet.utils.scheduler import WarmupLR
@@ -106,7 +116,26 @@ def get_args():
                         action='append',
                         default=[],
                         help="override yaml config")
-
+    parser.add_argument("--enc_init",
+                        default=None,
+                        type=str,
+                        help="Pre-trained model to initialize encoder")
+    parser.add_argument("--enc_init_mods",
+                        default="encoder.",
+                        type=lambda s: [str(mod) for mod in s.split(",") if s != ""],
+                        help="List of encoder modules to initialize, separated by a comma")
+    parser.add_argument("--dec_init",
+                        default=None,
+                        type=str,
+                        help="Pre-trained model to initialize decoder.")
+    parser.add_argument("--dec_init_mods",
+                        default="decoder.",
+                        type=lambda s: [str(mod) for mod in s.split(",") if s != ""],
+                        help="List of decoder modules to initialize, separated by a comma.")
+    parser.add_argument("--freeze_mods",
+                        default=None,
+                        type=lambda s: [str(mod) for mod in s.split(",") if s != ""],
+                        help="List of modules to freeze, separated by a comma.")
     args = parser.parse_args()
     return args
 
@@ -138,6 +167,7 @@ def main():
     cv_conf = copy.deepcopy(train_conf)
     cv_conf['speed_perturb'] = False
     cv_conf['spec_aug'] = False
+    cv_conf['shuffle'] = False
     non_lang_syms = read_non_lang_symbols(args.non_lang_syms)
 
     train_dataset = Dataset(args.data_type, args.train_data, symbol_table,
@@ -191,6 +221,12 @@ def main():
     # If specify checkpoint, load some info from checkpoint
     if args.checkpoint is not None:
         infos = load_checkpoint(model, args.checkpoint)
+    elif args.enc_init is not None:
+         logging.info('load pretrained encoders: {}'.format(args.enc_init))
+         infos = load_trained_enc_modules(model, args)
+    elif args.dec_init is not None:
+         logging.info('load pretrained decoders: {}'.format(args.dec_init))
+         infos = load_trained_dec_modules(model, args)
     else:
         infos = {}
     start_epoch = infos.get('epoch', -1) + 1
@@ -223,6 +259,10 @@ def main():
         use_cuda = args.gpu >= 0 and torch.cuda.is_available()
         device = torch.device('cuda' if use_cuda else 'cpu')
         model = model.to(device)
+    
+    ## freeze mode from espnet
+    if args.freeze_mods:
+        model, _ = freeze_modules(model, args.freeze_mods)
 
     optimizer = optim.Adam(model.parameters(), **configs['optim_conf'])
     scheduler = WarmupLR(optimizer, **configs['scheduler_conf'])
@@ -266,6 +306,8 @@ def main():
             writer.add_scalar('epoch/cv_loss', cv_loss, epoch)
             writer.add_scalar('epoch/lr', lr, epoch)
         final_epoch = epoch
+        #### free cuda ??
+        torch.cuda.empty_cache()
 
     if final_epoch is not None and args.rank == 0:
         final_model_path = os.path.join(model_dir, 'final.pt')

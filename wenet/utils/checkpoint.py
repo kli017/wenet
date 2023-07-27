@@ -7,6 +7,9 @@ import re
 
 import yaml
 import torch
+from collections import OrderedDict
+
+import datetime
 
 
 def load_checkpoint(model: torch.nn.Module, path: str) -> dict:
@@ -44,3 +47,119 @@ def save_checkpoint(model: torch.nn.Module, path: str, infos=None):
     with open(info_path, 'w') as fout:
         data = yaml.dump(infos)
         fout.write(data)
+
+
+def filter_modules(model_state_dict, modules):
+    """Filter non-matched modules in model state dict.
+    Args:
+        model_state_dict (Dict): Pre-trained model state dict.
+        modules (List): Specified module(s) to transfer.
+    Return:
+        new_mods (List): Filtered module list.
+    """
+    new_mods = []
+    incorrect_mods = []
+
+    mods_model = model_state_dict.keys()
+    for mod in modules:
+        if any(key.startswith(mod) for key in mods_model):
+            new_mods += [mod]
+        else:
+            incorrect_mods += [mod]
+
+    if incorrect_mods:
+        logging.warning(
+            "module(s) %s don't match or (partially match) "
+            "available modules in model.",
+            incorrect_mods,
+        )
+        logging.warning("for information, the existing modules in model are:")
+        logging.warning("%s", mods_model)
+
+    return new_mods
+
+
+def load_trained_enc_modules(model: torch.nn.Module, args: None):
+    # Load encoder modules with pre-trained model(s).
+    enc_model_path = args.enc_init
+    enc_modules = args.enc_init_mods
+    main_state_dict = model.state_dict()
+    logging.warning("model(s) found for pre-initialization")
+    if os.path.isfile(enc_model_path):
+        logging.info('Checkpoint: loading from checkpoint %s for CPU' %
+                     enc_model_path)
+        model_state_dict = torch.load(enc_model_path, map_location='cpu')
+        modules = filter_modules(model_state_dict, enc_modules)
+        partial_state_dict = OrderedDict()
+        for key, value in model_state_dict.items():
+            if any(key.startswith(m) for m in modules):
+                partial_state_dict[key] = value
+        main_state_dict.update(partial_state_dict)
+    else:
+        logging.warning("model was not found : %s", enc_model_path)
+
+    model.load_state_dict(main_state_dict)
+    configs = {}
+    return configs
+
+
+def load_trained_dec_modules(model: torch.nn.Module, args: None):
+    # Load decoder modules with pre-trained model(s).
+    dec_model_path = args.dec_init
+    dec_modules = args.dec_init_mods
+    main_state_dict = model.state_dict()
+    logging.warning("model(s) found for pre-initialization")
+    if os.path.isfile(dec_model_path):
+        logging.info('Checkpoint: loading from checkpoint %s for CPU' %
+                     dec_model_path)
+        model_state_dict = torch.load(dec_model_path, map_location='cpu')
+        modules = filter_modules(model_state_dict, dec_modules)
+        partial_state_dict = OrderedDict()
+        for key, value in model_state_dict.items():
+            if any(key.startswith(m) for m in modules):
+                partial_state_dict[key] = value
+        main_state_dict.update(partial_state_dict)
+    else:
+        logging.warning("model was not found : %s", dec_model_path)
+
+    model.load_state_dict(main_state_dict)
+    configs = {}
+    return configs
+
+
+def freeze_modules(model, modules):
+    """Freeze model parameters according to modules list.
+    Args:
+        model (torch.nn.Module): Main model.
+        modules (List): Specified module(s) to freeze.
+    Return:
+        model (torch.nn.Module) : Updated main model.
+        model_params (filter): Filtered model parameters.
+    """
+    for mod, param in model.named_parameters():
+        if any(mod.startswith(m) for m in modules):
+            logging.warning(f"Freezing {mod}. It will not be updated during training.")
+            #logging.info(f"Freezing {mod}. It will not be updated during training.")
+            #print(f"Freezing {mod}. It will not be updated during training.")
+            param.requires_grad = False
+
+    model_params = filter(lambda x: x.requires_grad, model.parameters())
+
+    return model, model_params
+
+
+def get_partial_state_dict(model_state_dict, modules):
+    """Create state dict with specified modules matching input model modules.
+    Args:
+        model_state_dict (Dict): Pre-trained model state dict.
+        modules (Dict): Specified module(s) to transfer.
+    Return:
+        new_state_dict (Dict): State dict with specified modules weights.
+    """
+    new_state_dict = OrderedDict()
+
+    for key, value in model_state_dict.items():
+        if any(key.startswith(m) for m in modules):
+            new_state_dict[key] = value
+
+    return new_state_dict
