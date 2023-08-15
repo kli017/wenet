@@ -123,6 +123,7 @@ class EBranchformerEncoderLayer(torch.nn.Module):
             chunk = x1.size(1) - output_cache.size(1)
             x_q = x1[:, -chunk:, :]
             mask = mask[:, -chunk:, :]
+            x2 = x_q
 
         # Branch 1: multi-headed attention module
         if self.attn is not None:
@@ -132,7 +133,7 @@ class EBranchformerEncoderLayer(torch.nn.Module):
 
         # Branch 2: convolutional gating mlp
         # Fake new cnn cache here, and then change it in conv_module
-        new_cnn_cache = torch.zeros((0, 0, 0), dtype=x.dtype, device=x.device)
+        new_cnn_cache = torch.tensor([0.0], dtype=x.dtype, device=x.device)
         if self.cgmlp is not None:
             x2 = self.norm_mlp(x2)
             x2, new_cnn_cache = self.cgmlp(x2, mask_pad, cnn_cache)
@@ -143,7 +144,7 @@ class EBranchformerEncoderLayer(torch.nn.Module):
         x_tmp = x_concat.transpose(1, 2)
         x_tmp = self.depthwise_conv_fusion(x_tmp)
         x_tmp = x_tmp.transpose(1, 2)
-        x = x + self.dropout(self.merge_proj(x_concat + x_tmp))
+        x = x_q + self.dropout(self.merge_proj(x_concat + x_tmp))
 
         # feed forward module
         if self.feed_forward is not None:
@@ -152,5 +153,8 @@ class EBranchformerEncoderLayer(torch.nn.Module):
             x = residual + self.ff_scale * self.dropout(self.feed_forward(x))
 
         x = self.norm_final(x)
+
+        if output_cache is not None:
+            x = torch.cat([output_cache, x], dim=1)
 
         return x, mask, new_cnn_cache
